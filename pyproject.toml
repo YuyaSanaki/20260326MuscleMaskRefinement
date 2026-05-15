@@ -1,0 +1,13 @@
+[project]
+name = "20260326musclemaskrefinement"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "napari[all]>=0.7.0",
+    "numpy>=2.3.5",
+    "pillow>=12.1.1",
+    "pyopengl>=3.1.10",
+    "pyqt5>=5.15.11",
+]
