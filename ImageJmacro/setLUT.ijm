@@ -40,4 +40,5 @@ r[8] = 90;  g[8] = 90;  b[8] = 210;
 
 // Apply and Update
 setLut(r, g, b);
+setMinAndMax(0, 255); 
 updateDisplay();
