@@ -36,6 +36,38 @@ uv run python refine_masks.py
 > `5.15.2`; Apple Silicon Mac uses `5.15.19`). After pulling, always run
 > `uv sync` before launching the viewer.
 
+### Windows: OpenGL / `self._finalCall` error
+
+If napari crashes with something like:
+
+```
+File "...OpenGL\latebind.py", line 43, in __call__
+    return self._finalCall( *args, **named )
+TypeError: 'NoneType' object is not callable
+```
+
+that is a **graphics / OpenGL** problem, not a mask-loading bug. Try these in
+PowerShell (one at a time):
+
+```powershell
+# 1. Desktop GPU (NVIDIA/AMD) — default in refine_masks_viewer.py
+$env:QT_OPENGL="desktop"
+uv run python refine_masks_viewer.py
+
+# 2. Intel integrated GPU / some laptops
+$env:QT_OPENGL="angle"
+uv run python refine_masks_viewer.py
+
+# 3. Software rendering (slow, but works when GPU/remote desktop fails)
+$env:QT_OPENGL="software"
+uv run python refine_masks_viewer.py
+```
+
+Also check:
+- Run **locally** on the PC (not Remote Desktop / RDP) if possible
+- Update your **GPU driver**
+- Use **Python 3.12** (`uv python pin 3.12` then `uv sync`)
+
 ---
 
 ## 🎨 Color Legend (Custom Labels)

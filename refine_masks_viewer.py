@@ -1,11 +1,15 @@
 import os
 import sys
 
-# Must run before Qt/napari/vispy load. ANGLE maps GL to D3D and often fixes
-# GL_INVALID_ENUM on Windows (Intel iGPU, remote desktop). Override with
-# QT_OPENGL=software or QT_OPENGL=desktop if needed.
+# Must run before Qt/napari/vispy load.
+# On Windows, OpenGL backend affects napari/vispy. If you see
+# "self._finalCall" / "NoneType object is not callable", try another backend:
+#   set QT_OPENGL=desktop   (NVIDIA/AMD GPU, local desktop)
+#   set QT_OPENGL=angle     (Intel iGPU, some laptops)
+#   set QT_OPENGL=software  (slowest; last resort / remote desktop)
 if sys.platform == "win32":
-    os.environ.setdefault("QT_OPENGL", "angle")
+    os.environ.setdefault("QT_OPENGL", "desktop")
+    print(f"Windows OpenGL backend: QT_OPENGL={os.environ['QT_OPENGL']}")
 
 from PIL import Image
 import numpy as np
